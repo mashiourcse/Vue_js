@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
+    <script src=""></script>
     <style>
         html,body{
             height: 100%;
@@ -28,38 +28,52 @@
 <body>
     
     <div id="app">
-        <p>
-            <button :class="active? 'text-red' : 'text-green'" v-on:click="toggle">Click Me</button>
-          <!-- <input type="text" v-model="greeting"> -->
-        </p>
-        <!-- <p>
-            {{ greeting}}   {{greeting.length}}
-        </p> -->
+       
+        <section v-show="pendingAssignments.length">
+            <h2>Assignments</h2>
+                    
+            <ul>
+                <li v-for="assignment in assignments.filter( a => !a.complete )" :key="assignment.id"> {{ assignment.name}} <input type="checkbox" v-model="assignment.complete"></li>
+            </ul>
+            <!-- <pre>
+                {{assignments}}
+            </pre> -->
+        </section>
         
+        <section v-show="completedAssignments.length">
+            <h2>Completed Assignments</h2>
+                    
+            <ul>
+                <li v-for="assignment in assignments.filter( a => a.complete )" :key="assignment.id"> {{ assignment.name}} </li>
+            </ul>
+            <!-- <pre>
+                {{assignments}}
+            </pre> -->
+        </section>
     </div>
 
     <script>
-        Vue.createApp( {
+        let app = {
             data(){
                 return {
-                    buttonClasses: 'text-green',
-                    active: false
-                };
-            },
-
-            methods: {
-                toggle(){
-                    this.active = !this.active;
-                    
+                    assignments: [
+                        { name: 'Finish project', complete: false, id: 1}, 
+                        { name: 'Read Chapter 4', complete: false, id: 2},
+                        { name: 'Turn in Homework', complete: false, id: 3},
+                    ]
                 }
             },
-            mounted(){
-                setTimeout( ()=>{
-                    this.greeting = 'Changed';
-                }, 3000);
-            }
 
-        }).mount('#app');
+            computed: {
+                completedAssignments(){
+                    return this.assignments.filter( a => a.complete);
+                },
+                pendingAssignments(){
+                    return this.assignments.filter( a => !a.complete);
+                }
+            }
+        }
+        Vue.createApp( app).mount('#app');
     </script>
 </body>
 </html>
