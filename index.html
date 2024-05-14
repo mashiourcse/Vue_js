@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src=""></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         html,body{
             height: 100%;
@@ -28,51 +28,19 @@
 <body>
     
     <div id="app">
-       
-        <section v-show="pendingAssignments.length">
-            <h2>Assignments</h2>
-                    
-            <ul>
-                <li v-for="assignment in assignments.filter( a => !a.complete )" :key="assignment.id"> {{ assignment.name}} <input type="checkbox" v-model="assignment.complete"></li>
-            </ul>
-            <!-- <pre>
-                {{assignments}}
-            </pre> -->
-        </section>
-        
-        <section v-show="completedAssignments.length">
-            <h2>Completed Assignments</h2>
-                    
-            <ul>
-                <li v-for="assignment in assignments.filter( a => a.complete )" :key="assignment.id"> {{ assignment.name}} </li>
-            </ul>
-            <!-- <pre>
-                {{assignments}}
-            </pre> -->
-        </section>
+       <app-button>Submit</app-button>
     </div>
 
-    <script>
-        let app = {
-            data(){
-                return {
-                    assignments: [
-                        { name: 'Finish project', complete: false, id: 1}, 
-                        { name: 'Read Chapter 4', complete: false, id: 2},
-                        { name: 'Turn in Homework', complete: false, id: 3},
-                    ]
-                }
-            },
+    <script type="module">
 
-            computed: {
-                completedAssignments(){
-                    return this.assignments.filter( a => a.complete);
-                },
-                pendingAssignments(){
-                    return this.assignments.filter( a => !a.complete);
-                }
-            }
+    import AppButton from "./components/AppButton.js";
+        let app = {
+           components: {
+            'app-button': AppButton
+           }
         }
+
+      
         Vue.createApp( app).mount('#app');
     </script>
 </body>
